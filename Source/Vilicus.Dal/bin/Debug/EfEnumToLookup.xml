@@ -1,0 +1,231 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EfEnumToLookup</name>
+    </assembly>
+    <members>
+        <member name="T:EfEnumToLookup.LookupGenerator.EnumParser">
+            <summary>
+            Loops through the values in an enum type and gets the ids and names
+            for use in the generated lookup table.
+            Will use Description attribute on enum values if available for the
+            name, otherwise it'll use the name from code, optionally split into
+            words.
+            </summary>
+        </member>
+        <member name="M:EfEnumToLookup.LookupGenerator.EnumParser.GetLookupValues(System.Type)">
+            <summary>
+            Loops through the values in an enum type and gets the ids and names
+            for use in the generated lookup table.
+            </summary>
+            <param name="lookup">Enum to process</param>
+            <exception cref="T:System.ArgumentException">Lookup type must be an enum;lookup</exception>
+        </member>
+        <member name="M:EfEnumToLookup.LookupGenerator.EnumParser.EnumName(System.Enum)">
+            <summary>
+            Gets the string to store in the lookup table for the specified
+            enum value. Will use the DescriptionAttribute of the value
+            if available, otherwise will use the value's name, optionally
+            split into words.
+            </summary>
+        </member>
+        <member name="M:EfEnumToLookup.LookupGenerator.EnumParser.EnumDescriptionValue(System.Enum)">
+            <summary>
+            Returns the value of the DescriptionAttribute for an enum value,
+            or null if there isn't one.
+            </summary>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.EnumParser.SplitWords">
+            <summary>
+            If set to true (default) enum names will have spaces inserted between
+            PascalCase words, e.g. enum SomeValue is stored as "Some Value".
+            </summary>
+        </member>
+        <member name="T:EfEnumToLookup.LookupGenerator.EnumToLookup">
+            <summary>
+            Makes up for a missing feature in Entity Framework 6.1
+            Creates lookup tables and foreign key constraints based on the enums
+            used in your model.
+            Use the properties exposed to control behaviour.
+            Run <c>Apply</c> from your Seed method in either your database initializer
+            or your EF Migrations.
+            It is safe to run repeatedly, and will ensure enum values are kept in line
+            with your current code.
+            Source code: https://github.com/timabell/ef-enum-to-lookup
+            License: MIT
+            </summary>
+        </member>
+        <member name="T:EfEnumToLookup.LookupGenerator.IEnumToLookup">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EfEnumToLookup.LookupGenerator.IEnumToLookup.Apply(System.Data.Entity.DbContext)">
+            <summary>
+            Create any missing lookup tables,
+            enforce values in the lookup tables
+            by way of a T-SQL MERGE
+            </summary>
+            <param name="context">EF Database context to search for enum references,
+             context.Database.ExecuteSqlCommand() is used to apply changes.</param>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.IEnumToLookup.SplitWords">
+            <summary>
+            If set to true (default) enum names will have spaces inserted between
+            PascalCase words, e.g. enum SomeValue is stored as "Some Value".
+            </summary>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.IEnumToLookup.NameFieldLength">
+            <summary>
+            The size of the Name field that will be added to the generated lookup tables.
+            Adjust to suit your data if required, defaults to 255.
+            </summary>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.IEnumToLookup.TableNamePrefix">
+            <summary>
+            Prefix to add to all the generated tables to separate help group them together
+            and make them stand out as different from other tables.
+            Defaults to "Enum_" set to null or "" to not have any prefix.
+            </summary>
+        </member>
+        <member name="M:EfEnumToLookup.LookupGenerator.EnumToLookup.Apply(System.Data.Entity.DbContext)">
+            <summary>
+            Create any missing lookup tables,
+            enforce values in the lookup tables
+            by way of a T-SQL MERGE
+            </summary>
+            <param name="context">EF Database context to search for enum references,
+             context.Database.ExecuteSqlCommand() is used to apply changes.</param>
+        </member>
+        <member name="M:EfEnumToLookup.LookupGenerator.EnumToLookup.GenerateMigrationSql(System.Data.Entity.DbContext)">
+            <summary>
+            Rather than applying the changes directly to the database as Apply() does,
+            this will give you a copy of the sql that would have been run to bring the
+            database up to date. This is useful for generating migration scripts or
+            for environments where your application isn't allowed to make schema changes;
+            in this scenario you can generate the sql in advance and apply it separately.
+            </summary>
+            <param name="context">EF Database context to search for enum references</param>
+            <returns>SQL statements needed to update the target database</returns>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.EnumToLookup.SplitWords">
+            <summary>
+            If set to true (default) enum names will have spaces inserted between
+            PascalCase words, e.g. enum SomeValue is stored as "Some Value".
+            </summary>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.EnumToLookup.NameFieldLength">
+            <summary>
+            The size of the Name field that will be added to the generated lookup tables.
+            Adjust to suit your data if required, defaults to 255.
+            </summary>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.EnumToLookup.TableNamePrefix">
+            <summary>
+            Prefix to add to all the generated tables to separate help group them together
+            and make them stand out as different from other tables.
+            Defaults to "Enum_" set to null or "" to not have any prefix.
+            </summary>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.EnumToLookup.TableNameSuffix">
+            <summary>
+            Suffix to add to all the generated tables to separate help group them together
+            and make them stand out as different from other tables.
+            Defaults to "" set to null or "" to not have any suffix.
+            </summary>
+        </member>
+        <member name="M:EfEnumToLookup.LookupGenerator.IDbHandler.Apply(EfEnumToLookup.LookupGenerator.LookupDbModel,System.Action{System.String,System.Collections.Generic.IEnumerable{System.Data.SqlClient.SqlParameter}})">
+            <summary>
+            Make the required changes to the database.
+            </summary>
+            <param name="model">Details of lookups and foreign keys to add/update</param>
+            <param name="runSql">A callback providing a means to execute sql against the
+            server. (Or possibly write it to a file for later use.</param>
+        </member>
+        <member name="M:EfEnumToLookup.LookupGenerator.IDbHandler.GenerateMigrationSql(EfEnumToLookup.LookupGenerator.LookupDbModel)">
+            <summary>
+            Generates the migration SQL needed to update the database to match
+            the enums in the current model.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.IDbHandler.NameFieldLength">
+            <summary>
+            The size of the Name field that will be added to the generated lookup tables.
+            Adjust to suit your data if required.
+            </summary>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.IDbHandler.TableNamePrefix">
+            <summary>
+            Prefix to add to all the generated tables to separate help group them together
+            and make them stand out as different from other tables.
+            </summary>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.IDbHandler.TableNameSuffix">
+            <summary>
+            Suffix to add to all the generated tables to separate help group them together
+            and make them stand out as different from other tables.
+            </summary>
+        </member>
+        <member name="T:EfEnumToLookup.LookupGenerator.EnumReference">
+            <summary>
+            Information needed to construct a foreign key from a referencing
+            table to a generated enum lookup.
+            </summary>
+        </member>
+        <member name="M:EfEnumToLookup.LookupGenerator.MetadataHandler.ProcessEdmProperties(System.Collections.Generic.IEnumerable{System.Data.Entity.Core.Metadata.Edm.EdmProperty},System.Data.Entity.Core.Mapping.MappingFragment,System.Data.Entity.Core.Metadata.Edm.ObjectItemCollection)">
+            <summary>
+            Loop through all the specified properties, including the children of any complex type properties, looking for enum types.
+            </summary>
+            <param name="properties">The properties to search.</param>
+            <param name="mappingFragment">Information needed from ef metadata to map table and its columns</param>
+            <param name="objectItemCollection">For looking up ClrTypes of any enums encountered</param>
+            <returns>All the references that were found in a form suitable for creating lookup tables and foreign keys</returns>
+        </member>
+        <member name="M:EfEnumToLookup.LookupGenerator.MetadataHandler.GetColumnName(System.Data.Entity.Core.Mapping.StructuralTypeMapping,System.Data.Entity.Core.Metadata.Edm.EdmProperty,System.Data.Entity.Core.Metadata.Edm.EdmProperty)">
+            <summary>
+            Gets the name of the column for the property from the metadata.
+            Set nestedProperty for the property of a complex type to lookup.
+            </summary>
+            <param name="mappingFragment">EF metadata for finding mappings.</param>
+            <param name="edmProperty">The of the model to find the column for (for simple types), or for complex types this is the containing complex type.</param>
+            <param name="nestedProperty">Only required to map complex types. The property of the complex type to find the column name for.</param>
+            <returns>The column name for the property</returns>
+            <exception cref="T:EfEnumToLookup.LookupGenerator.EnumGeneratorException">
+            </exception>
+        </member>
+        <member name="T:EfEnumToLookup.LookupGenerator.LookupDbModel">
+            <summary>
+            Not the best name ever. Everything you need to know
+            about a database to be able to generate lookup tables
+            and add foreign keys pointing to them.
+            </summary>
+        </member>
+        <member name="T:EfEnumToLookup.LookupGenerator.RuntimeOnlyAttribute">
+            <summary>
+            Add this to an enum value to prevent it being included
+            in generated database lookup tables.
+            </summary>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.SqlServerHandler.NameFieldLength">
+            <summary>
+            The size of the Name field that will be added to the generated lookup tables.
+            Adjust to suit your data if required, defaults to 255.
+            </summary>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.SqlServerHandler.TableNamePrefix">
+            <summary>
+            Prefix to add to all the generated tables to separate help group them together
+            and make them stand out as different from other tables.
+            Defaults to "Enum_" set to null or "" to not have any prefix.
+            </summary>
+        </member>
+        <member name="P:EfEnumToLookup.LookupGenerator.SqlServerHandler.TableNameSuffix">
+            <summary>
+            Suffix to add to all the generated tables to separate help group them together
+            and make them stand out as different from other tables.
+            Defaults to "" set to null or "" to not have any suffix.
+            </summary>
+        </member>
+    </members>
+</doc>
