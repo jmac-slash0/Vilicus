@@ -1,2 +1,2 @@
 # Vilicus
-Just another ticket manager
+A ticket manager prototype
