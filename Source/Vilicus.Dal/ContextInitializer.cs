@@ -1,14 +1,13 @@
-﻿
-using EfEnumToLookup.LookupGenerator;
+﻿using EfEnumToLookup.LookupGenerator;
 using System;
 using System.Collections.Generic;
 using Vilicus.Dal.Models;
 
 namespace Vilicus.Dal
 {
-    public class ContextInitializer : System.Data.Entity.DropCreateDatabaseAlways<TicketContext>
+    public class ContextInitializer : System.Data.Entity.DropCreateDatabaseAlways<VilicusContext>
     {
-        protected override void Seed(TicketContext context)
+        protected override void Seed(VilicusContext context)
         {
             EnumToLookup enumToLookup = new EnumToLookup();
             enumToLookup.SplitWords = true; // InWork -> In Work
@@ -41,7 +40,8 @@ namespace Vilicus.Dal
                     TicketTime = DateTime.Now,
                     UrgencyId = Urgency.Critical,
                     StatusId = Status.Submitted,
-                    UserId = 1 }
+                    UserId = 1
+                }
             };
             tickets.ForEach(o => context.Ticket.Add(o));
             context.SaveChanges();

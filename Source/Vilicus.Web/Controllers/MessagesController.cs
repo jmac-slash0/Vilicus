@@ -7,102 +7,93 @@ using Vilicus.Web.Models;
 
 namespace Vilicus.Web.Controllers
 {
-    public class TicketsController : Controller
+    public class MessagesController : Controller
     {
-        private ITicketRepository _repository;
+        private IMessageRepository _repository;
 
-
-        public TicketsController(ITicketRepository repository)
+        public MessagesController(IMessageRepository repository)
         {
             _repository = repository;
         }
 
-        // GET: Tickets
+        // GET: Messages
         public ActionResult Index()
         {
             return View(_repository.GetAll());
         }
 
-        // GET: Tickets/Details/5
+        // GET: Messages/Details/5
         public ActionResult Details(int? id)
         {
-            Ticket entity = null;
-            TicketViewModel model = null;
+            Message entity = null;
+            MessageViewModel messageViewModel = null;
 
-            // Check if we got an id
-            if (!id.HasValue)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            // Hit repo
             entity = _repository.Get(id.Value);
 
-            // See if we got a result
             if (entity == null)
             {
                 return HttpNotFound();
             }
 
-            // Map entity to view model
-            model = AutoMapper.Mapper.Map<Ticket, TicketViewModel>(entity);
+            messageViewModel = Mapper.Map<Message, MessageViewModel>(entity);
 
-            return View(model);
+            return View(messageViewModel);
         }
 
-        // GET: Tickets/Create
+        // GET: Messages/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Tickets/Create
+        // POST: Messages/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(TicketViewModel model)
+        public ActionResult Create(MessageEditModel model)
         {
             if (ModelState.IsValid)
             {
-                // Map incoming view model to entity
-                Ticket entity = Mapper.Map<TicketViewModel, Ticket>(model);
-
-                _repository.Add(entity);
-
+                _repository.Add(Mapper.Map<MessageEditModel, Message>(model));
                 return RedirectToAction("Index");
             }
 
             return View(model);
         }
 
-        // GET: Tickets/Edit/5
+        // GET: Messages/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (!id.HasValue)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Ticket entity = _repository.Get(id.Value);
-
+            Message entity = _repository.Get(id.Value);
+            
             if (entity == null)
             {
                 return HttpNotFound();
             }
 
-            TicketEditModel model = Mapper.Map<Ticket, TicketEditModel>(entity);
+            MessageEditModel model = Mapper.Map<Message, MessageEditModel>(entity);
 
             return View(model);
         }
 
-        // POST: Tickets/Edit/5
+        // POST: Messages/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(TicketEditModel model)
+        public ActionResult Edit(MessageEditModel model)
         {
             if (ModelState.IsValid)
             {
-                Ticket entity = Mapper.Map<TicketEditModel, Ticket>(model);
-
+                Message entity = Mapper.Map<MessageEditModel, Message>(model);
                 _repository.Update(entity, entity.Id);
 
                 return RedirectToAction("Index");
@@ -111,31 +102,33 @@ namespace Vilicus.Web.Controllers
             return View(model);
         }
 
-        // GET: Tickets/Delete/5
+        // GET: Messages/Delete/5
         [HttpGet]
         public ActionResult Delete(int? id)
         {
-            Ticket entity = null;
-            TicketViewModel model = null;
+            // Same code as Details... might need to rethink this
+            Message entity = null;
+            MessageViewModel messageViewModel = null;
 
-            if (!id.HasValue)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             entity = _repository.Get(id.Value);
-            model = Mapper.Map<Ticket, TicketViewModel>(entity);
 
             if (entity == null)
             {
                 return HttpNotFound();
             }
 
-            return View(model);
+            messageViewModel = Mapper.Map<Message, MessageViewModel>(entity);
+
+            return View(messageViewModel);
         }
 
-        // POST: Tickets/Delete/5
-        [HttpDelete, ActionName("Delete")]
+        // POST: Messages/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {

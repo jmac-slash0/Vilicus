@@ -1,4 +1,4 @@
-﻿@model Vilicus.Web.Models.Ticket
+﻿@model Vilicus.Web.Models.TicketViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,11 +11,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            @Html.DisplayNameFor(model => model.UserDisplayName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
+            @Html.DisplayFor(model => model.UserDisplayName)
         </dd>
 
         <dt>
@@ -43,19 +43,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Urgency)
+            @Html.DisplayNameFor(model => model.UrgencyId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Urgency)
+            @Html.DisplayFor(model => model.UrgencyId)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.StatusId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Status)
+            @Html.DisplayFor(model => model.StatusId)
         </dd>
 
     </dl>

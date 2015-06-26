@@ -17,6 +17,8 @@ namespace Vilicus.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             DalHelper.InitializeDatabaseContext();
+
+            AutoMapperConfig.Configure();
         }
     }
 }

@@ -46,6 +46,7 @@ namespace Vilicus.Dal.Models
 
     public class Ticket
     {
+        [Required]
         public int Id { get; set; }
         [Required]
         public string Subject { get; set; }

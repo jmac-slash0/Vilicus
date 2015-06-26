@@ -1,14 +1,15 @@
-﻿using Vilicus.Dal.Models;
+﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.SqlServer;
+using Vilicus.Dal.Models;
 
 namespace Vilicus.Dal
 {
-    public class TicketContext : DbContext
+    public class VilicusContext : DbContext
     {
 
-        public TicketContext() : base("TicketContext")
+        public VilicusContext() : base("VilicusContext")
         {
         }
 
@@ -23,6 +24,11 @@ namespace Vilicus.Dal
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+            // Datetime2 is the recommended type for dates and times in SQL Server 2008 onwards.
+            // EF will always map.Net DateTimes to the SQL Server datetime type, so we want to 
+            // tell it to always map DateTime to DateTime2 instead at a global level.
+            modelBuilder.Properties<DateTime>().Configure(c => c.HasColumnType("datetime2"));
         }
     }
 

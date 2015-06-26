@@ -52,12 +52,14 @@
     <Compile Include="DalHelper.cs" />
     <Compile Include="ContextInitializer.cs" />
     <Compile Include="Interfaces\IBaseRepository.cs" />
+    <Compile Include="Interfaces\IMessageRepository.cs" />
     <Compile Include="Interfaces\ITicketRepository.cs" />
     <Compile Include="Models\DatabaseModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\MessageRepository.cs" />
     <Compile Include="Repositories\TicketRepository.cs" />
-    <Compile Include="TicketContext.cs" />
+    <Compile Include="VilicusContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -39,6 +39,7 @@ namespace Vilicus.Web.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<ITicketRepository, TicketRepository>();
+            container.RegisterType<IMessageRepository, MessageRepository>();
         }
     }
 }
