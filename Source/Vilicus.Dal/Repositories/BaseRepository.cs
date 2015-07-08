@@ -16,7 +16,7 @@ namespace Vilicus.Dal.Repositories
     /// <typeparam name="TObject"></typeparam>
     public abstract class BaseRepository<TObject> where TObject : class
     {
-        protected DbContext _context;
+        protected DbContext baseContext;
 
         /// <summary>
         /// The contructor requires an open DataContext to work with
@@ -24,7 +24,7 @@ namespace Vilicus.Dal.Repositories
         /// <param name="context">An open DataContext</param>
         public BaseRepository(DbContext context)
         {
-            this._context = context;
+            this.baseContext = context;
         }
 
         /*
@@ -46,7 +46,7 @@ namespace Vilicus.Dal.Repositories
         /// <returns>A single object with the provided primary key or null</returns>
         public TObject Get(int id)
         {
-            return _context.Set<TObject>().Find(id);
+            return baseContext.Set<TObject>().Find(id);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Vilicus.Dal.Repositories
         /// <returns></returns>
         public TObject Get(int id, params Expression<Func<TObject, object>>[] includes)
         {
-            DbSet<TObject> entityInstance = _context.Set<TObject>();
+            DbSet<TObject> entityInstance = baseContext.Set<TObject>();
 
             foreach (var expression in includes)
             {
@@ -74,7 +74,7 @@ namespace Vilicus.Dal.Repositories
         /// <returns>An IEnumerable of every object in the database</returns>
         public IEnumerable<TObject> GetAll()
         {
-            return _context.Set<TObject>().ToList();
+            return baseContext.Set<TObject>().ToList();
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Vilicus.Dal.Repositories
         /// <returns>A single object which matches the expression filter or null.</returns>
         public TObject Find(Expression<Func<TObject, bool>> match)
         {
-            return _context.Set<TObject>().FirstOrDefault(match);
+            return baseContext.Set<TObject>().FirstOrDefault(match);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Vilicus.Dal.Repositories
         /// <returns>An IEnumerable of object which match the expression filter</returns>
         public IEnumerable<TObject> FindAll(Expression<Func<TObject, bool>> match)
         {
-            return _context.Set<TObject>().Where(match).ToList();
+            return baseContext.Set<TObject>().Where(match).ToList();
         }
 
         /// <summary>
@@ -107,8 +107,8 @@ namespace Vilicus.Dal.Repositories
         {
             if (t != null)
             {
-                _context.Set<TObject>().Add(t);
-                _context.SaveChanges();
+                baseContext.Set<TObject>().Add(t);
+                baseContext.SaveChanges();
             }
 
             return t;
@@ -125,10 +125,10 @@ namespace Vilicus.Dal.Repositories
             {
                 foreach (TObject t in tList)
                 {
-                    _context.Set<TObject>().Add(t);
+                    baseContext.Set<TObject>().Add(t);
                 }
 
-                _context.SaveChanges();
+                baseContext.SaveChanges();
             }
 
             return tList;
@@ -146,10 +146,10 @@ namespace Vilicus.Dal.Repositories
 
             if (t != null && key > 0)
             {
-                existing = _context.Set<TObject>().Find(key);
+                existing = baseContext.Set<TObject>().Find(key);
 
-                _context.Entry(existing).CurrentValues.SetValues(t);
-                _context.SaveChanges();
+                baseContext.Entry(existing).CurrentValues.SetValues(t);
+                baseContext.SaveChanges();
             }
 
             return existing;
@@ -163,8 +163,8 @@ namespace Vilicus.Dal.Repositories
         {
             if (t != null)
             {
-                _context.Set<TObject>().Remove(t);
-                _context.SaveChanges();
+                baseContext.Set<TObject>().Remove(t);
+                baseContext.SaveChanges();
             }
         }
 
@@ -174,7 +174,7 @@ namespace Vilicus.Dal.Repositories
         /// <returns>The count of the number of objects</returns>
         public int Count()
         {
-            return _context.Set<TObject>().Count();
+            return baseContext.Set<TObject>().Count();
         }
     }
 }

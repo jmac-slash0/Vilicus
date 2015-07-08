@@ -13,13 +13,6 @@ namespace Vilicus.Dal
         {
         }
 
-        public DbSet<Tag> Tag { get; set; }
-        public DbSet<TicketTagMapping> TicketTagMapping { get; set; }
-        public DbSet<Ticket> Ticket { get; set; }
-        public DbSet<Message> Message { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<Client> Client { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
@@ -30,6 +23,14 @@ namespace Vilicus.Dal
             // tell it to always map DateTime to DateTime2 instead at a global level.
             modelBuilder.Properties<DateTime>().Configure(c => c.HasColumnType("datetime2"));
         }
+
+        public IDbSet<Tag> Tag { get; set; }
+        public IDbSet<TicketTagMapping> TicketTagMapping { get; set; }
+        public IDbSet<Ticket> Ticket { get; set; }
+        public IDbSet<Message> Message { get; set; }
+        public IDbSet<User> User { get; set; }
+        public IDbSet<Client> Client { get; set; }
+
     }
 
     internal static class MissingDllHack

@@ -5,8 +5,6 @@ namespace Vilicus.Dal.Repositories
 {
     public class TicketRepository : BaseRepository<Ticket>, ITicketRepository
     {
-        // Get context private variable from base class: _context
-
         public TicketRepository(VilicusContext context) : base(context)
         {
         }

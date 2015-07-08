@@ -63,7 +63,7 @@ namespace Vilicus.Dal.Models
 
         public virtual User User { get; set; }
 
-        public virtual ICollection<TicketTagMapping> TicketTagMapping { get; set; }
+        public virtual ICollection<TicketTagMapping> TicketTagMappings { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
     }
 
@@ -79,14 +79,34 @@ namespace Vilicus.Dal.Models
         public virtual Ticket Ticket { get; set; }
     }
 
+    public enum Role
+    {
+        Admin = 1,
+        User
+    }
+
+    public class UserRoleMapping
+    {
+        public int UserId { get; set; }
+        public int RoleId { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual Role Role { get; set; }
+    }
+
     public class User
     {
         public int Id { get; set; }
+        public bool IsActive { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        public string Email { get; set; }
+        public string Password { get; set; }
+        
         public virtual Client Employer { get; set; }
 
+        public virtual ICollection<UserRoleMapping> UserRoleMappings { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
     }
